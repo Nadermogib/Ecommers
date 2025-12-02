@@ -34,7 +34,7 @@ const addressesSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-        label:{
+        isDefault:{
         type:Boolean,
         default:false
     },
@@ -62,11 +62,11 @@ const userSchema=new mongoose.Schema({
     },
        addresses:[addressesSchema],
           
-          wishList:{
+          wishList:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"product",
-        default:[]
-    },
+        ref:"product"
+       
+    }],
 },{timestamps:true})
 
 export const User=mongoose.model("User",userSchema)
