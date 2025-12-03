@@ -14,10 +14,6 @@ const addressesSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-        label:{
-        type:String,
-        required:true
-    },
         city:{
         type:String,
         required:true
