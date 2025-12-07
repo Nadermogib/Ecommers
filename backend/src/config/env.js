@@ -16,5 +16,6 @@ export const ENV = {
 
   INNGEST_SIGNING_KEY:process.env.INNGEST_SIGNING_KEY,
 
-  ADMIN_EMAIL:process.env.ADMIN_EMAIL
+  ADMIN_EMAIL:process.env.ADMIN_EMAIL,
+  CLENT_URL:process.env.CLENT_URL
 };
