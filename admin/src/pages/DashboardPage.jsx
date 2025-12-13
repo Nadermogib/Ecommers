@@ -20,22 +20,22 @@ function DashboardPage() {
   const stataCards=[
     {
       name:"Total Revenue",
-      value:stataLoading?"...":`$${stataData.totalRevenue.toFixed(2) || 0}`,
+      value:stataLoading?"...":`$${stataData?.totalRevenue?.toFixed(2) || 0}`,
       icon:<DollarSignIcon className='size-8'/>
     },
     {
       name:"Total Orders",
-      value:stataLoading?"...":stataData.totelOrder || 0,
+      value:stataLoading?"...":stataData?.totelOrder || 0,
       icon:<ShoppingBagIcon className='size-8'/>
     },
     {
       name:"Total Customers",
-      value:stataLoading?"...":stataData.totalCustmores || 0,
+      value:stataLoading?"...":stataData?.totalCustmores || 0,
       icon:<UserIcon className='size-8'/>
     },
     {
       name:"Total Products",
-      value:stataLoading?"...":stataData.totalProducts|| 0,
+      value:stataLoading?"...":stataData?.totalProducts|| 0,
       icon:<PackageIcon className='size-8'/>
     },
   ]

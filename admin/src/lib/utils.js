@@ -1,4 +1,5 @@
 export const capitalizeText=(text)=>{
+    if(!text) return text
     return text.charAt(0).toUpperCase() + text.slice(1)
 }
 
@@ -23,6 +24,9 @@ export const getStockStatusBadge=(stock)=>{
 }
 
 export const formatData=(dateString)=>{
+    if(! dateString) return ""
+    const date= new Date(dateString);
+    if(isNaN(date.getTime())) return " "
     return new Date(dateString).toLocaleDateString("en-Us",{
         month:"short",
         day:"numeric",
