@@ -4,9 +4,9 @@ import path from "path"
 
 const storage=multer.diskStorage({
     filename:(req,file,cb)=>{
-        const ext=path.extname(file.originalname || "").toLowerCase
+        const ext=path.extname(file.originalname || "").toLowerCase()
         const safeEXt=[".png",".jpeg",".jpg",".webp"].includes(ext)?ext :""
-        const unique=`${Date.now()}-${Math.round(Math.round() * 1e9)}`;
+        const unique = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
 
         cb(null,`${unique}${safeEXt}`)
     }
@@ -17,7 +17,7 @@ const storage=multer.diskStorage({
 const fileFilter=(req,file,cb)=>{
 
     const allowedTypes=/jpeg|jpg|png|webp/
-    const extname=allowedTypes.test(path.extname(file.originalname).toLowerCase)
+    const extname=allowedTypes.test(path.extname(file.originalname).toLowerCase())
     const mimeType=allowedTypes.test(file.mimetype)
     if(extname && mimeType){
         cb(null,true)
