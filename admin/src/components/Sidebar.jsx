@@ -6,12 +6,11 @@ import {NAVIGATION} from './Navbar'
 function Sidebar() {
     const location=useLocation()
     const {user}=useUser()
-    console.log(user)
   
   return (
 
     <div className='drawer-side is-drawer-close:overflow-visible'>
-      <label htmlFor='my-drawer' aria-label='close sidebar' className='drawer-overlay'></label>
+      <label htmlFor='my-drawer' aria-label='close sidebar' className='drawer-overlay lg:hidden'></label>
 
       <div className='flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64' >
 
@@ -32,7 +31,9 @@ function Sidebar() {
                 <li key={item.path}>
                    <Link
                    to={item.path}
-                    className={`is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive? "bg-primary text-primary-content":""}`}>
+                    className={`is-drawer-close:tooltip is-drawer-close:tooltip-right 
+                    ${isActive ? "bg-primary text-primary-content" : ""}
+                  `}>
                     {item.icon}
                        <span className='is-drawer-close:hidden'>{item.name}</span>  
                     </Link>

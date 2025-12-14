@@ -51,7 +51,7 @@ export async function getAllProducts(_,res) {
     try {
 
       //-1 means in desc order: modt recnt  proudects
-      const products=(await Product.find()).toSorted({createdAt:-1})
+      const products=await Product.find().sort({createdAt:-1})
       res.status(200).json(products)
       
     } catch (error) {
@@ -66,7 +66,7 @@ export async function updateProduct(req,res) {
     
      const {name,description,price,stock,category}=req.body;
 
-     const product=await Product.findById({id});
+     const product=await Product.findById(id);
      if(! product) return res.status(404).json({message:"Product not found"})
 
       if(name)product.name=name;
@@ -185,5 +185,17 @@ export async function getDashboardStata(_,res) {
      console.error("Error  fetching dashbord stata ",error)
      res.status(500).json({message:"Internal server error"}) 
   }
+}
+
+export async function deleteProduct(req,res) {
+  try {
+     const {id}=req.params
+     await Product.findByIdAndDelete(id);
+     res.status(200).json({message:"Product deleted successfully"})
+  } catch (error) {
+     console.error("Error  deleteProduct  ",error)
+     res.status(500).json({message:"Internal server error"}) 
+  }
+  
 }
 

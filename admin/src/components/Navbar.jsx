@@ -15,7 +15,7 @@ const location=useLocation()
 
   return (
     <div className='navbar w-full bg-base-300'>
-      <label htmlFor='my-drawer' className='btn btn-square btn-ghost' aria-label='open sidebar' >
+      <label htmlFor='my-drawer' className='btn btn-square btn-ghost lg:hidden' aria-label='open sidebar' >
         <PanelLeftIcon className='size-5'/>
       </label>
 

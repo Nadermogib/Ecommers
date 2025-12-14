@@ -6,10 +6,10 @@ import Sidebar from '../components/Sidebar'
 function DashboardLayout() {
   return (
     <div className='drawer lg:drawer-open'>
-     <input id='my-drawer' defaultChecked type='checkbox' className='drawer-toggle' />
+     <input id='my-drawer'  type='checkbox' className='drawer-toggle' />
      <div className='drawer-content'>
        <Navbar/>
-       <main className='p-6'>
+       <main className='p-6 min-h-screen'>
          <Outlet/>
        </main>
      </div>
