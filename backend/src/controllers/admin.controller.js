@@ -190,8 +190,27 @@ export async function getDashboardStata(_,res) {
 export async function deleteProduct(req,res) {
   try {
      const {id}=req.params
-     await Product.findByIdAndDelete(id);
+     const product= await Product.findById(id)
+     if(!product){
+       return res.status(404).json({message:"product not found"})
+     }
+     
+     //todo
+
+     //delete image from cloudinary
+     if(product.images && product.images.length >0){
+      const deletePromisess=product.images.map((imageUrl)=>{
+        //Extract public_id from url (assumes format:.../product/publicId.ext)
+        const publiceId="Producs/" +imageUrl.split("/Producs/")[1]?.split(".")[0];
+        if(publiceId) return cloudinary.uploader.destroy(publiceId);
+
+      })
+      await Promise.all(deletePromisess.filter(Boolean))
+     }
+
+      await Product.findByIdAndDelete(id);
      res.status(200).json({message:"Product deleted successfully"})
+     
   } catch (error) {
      console.error("Error  deleteProduct  ",error)
      res.status(500).json({message:"Internal server error"}) 
