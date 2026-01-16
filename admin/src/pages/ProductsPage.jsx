@@ -18,10 +18,12 @@ function ProductsPage() {
   const [images,setImages]=useState([])
   const [imagePreviews,setImagePreview]=useState([])
   const queryClient=useQueryClient()
+
   //fetch same data
   const {data:products=[]}=useQuery({
     queryKey:["products"],
-    queryFn:productApi.getAll
+    queryFn:productApi.getAll,
+   
   })
 
   //we use mutataion whene create or apdate or deleteing
@@ -32,6 +34,7 @@ function ProductsPage() {
       queryClient.invalidateQueries({queryKey:["products"]})
     }
   })
+
   const updateProductMutation=useMutation({
     mutationFn:productApi.update,
     onSuccess:()=>{
@@ -52,6 +55,7 @@ function ProductsPage() {
     //resetData
     setShowModel(false)
     setEditingProduct(null)
+
     setFormData({
       name:"",
       category:"",
@@ -80,7 +84,10 @@ function ProductsPage() {
   const hendleImageChange=(e)=>{
     const files=Array.from(e.target.files)
     if(files.length>3) return alert("Maximum 3 images allowed")
-    
+
+    imagePreviews.forEach((url)=>{
+     if(url.startsWith("blob:")) URL.revokeObjectURL(url)
+    })
       setImages(files)
       setImagePreview(files.map((file)=>URL.createObjectURL(file)))
   }
