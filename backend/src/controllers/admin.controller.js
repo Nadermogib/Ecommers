@@ -151,9 +151,12 @@ export async function updateOrderStatus(req,res) {
 
 export async function getAllCoustomers(_,res) {
   try {
-    
+     const customers =await User.find().sort({createdAt:-1})
+     if(!customers) return res.status(404).json({message:"No user found"})
+     res.status(200).json({customers})
   } catch (error) {
-    
+     console.error("Error  fetching customers ",error)
+     res.status(500).json({message:"Internal server error"}) 
   }
 }
 export async function getDashboardStata(_,res) {
