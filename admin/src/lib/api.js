@@ -4,7 +4,7 @@ import axiosInstance from "./axios"
 export const productApi={
     getAll:async()=>{
         const {data}=await axiosInstance.get("/admin/products");
-        return data
+        return data.products
     },
     create:async(formData)=>{
         const {data}=await axiosInstance.post("/admin/products",formData);
