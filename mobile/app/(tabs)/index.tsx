@@ -6,9 +6,9 @@ import ProductGrid from '@/components/ProductGrid'
 import useProducts from '@/hooks/useProducts'
 const ShopScreen = () => {
   const [searchQuery,setSearchQuery]=useState("")
-  const [selectedCategory,setSelectedCategory]=useState("All")
-  const {data:products,isLoading,isError} =useProducts()
-   
+  const [selectedCategory, setSelectedCategory]=useState("All")
+   const {data:products,isLoading,isError} =useProducts()
+   console.log(products)
   const CATEGORIES = [
   { name: "All", icon: "grid-outline" as const },
   { name: "Electronics", image: require("@/assets/images/electronics.png") },
