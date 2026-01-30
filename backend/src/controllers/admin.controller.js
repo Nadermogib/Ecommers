@@ -52,7 +52,7 @@ export async function getAllProducts(_,res) {
 
       //-1 means in desc order: modt recnt  proudects
       const products=await Product.find().sort({createdAt:-1})
-      res.status(200).json(products)
+      res.status(200).json({products})
       
     } catch (error) {
       console.error("Error fetching product ",error)
