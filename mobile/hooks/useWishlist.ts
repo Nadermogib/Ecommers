@@ -1,3 +1,4 @@
+
 import { useQuery,useMutation,useQueryClient } from "@tanstack/react-query";
 import { useApi } from "@/lib/api";
 import { Product } from "@/types";
@@ -8,26 +9,48 @@ const useWishlist = () => {
     const {data:wishlist,isLoading,isError}=useQuery({
         queryKey:["wishlist"],
         queryFn:async()=>{
-            const {data}=await api.get<{whishlist:Product []}>("users/wishlist")
-            return data.whishlist
+            const {data}=await api.get<{wishList:Product []}>("users/wishlist")
+            return data.wishList
         }
     })
 
     const addToWishlistMutation=useMutation({
         mutationFn:async(productId:string)=>{
-            const {data}=await api.post<{wishlist:string[]}>("users/wishlist",{productId})
-            return data.wishlist
+            const {data}=await api.post<{wishList:string[]}>("users/wishlist",{productId})
+            return data.wishList
         },
         onSuccess:()=>queryClinnt.invalidateQueries({queryKey:["wishlist"]})
     })
     const removeFromWishlistMutation=useMutation({
         mutationFn:async(productId:string)=>{
-            const {data}=await api.delete<{wishlist:string[]}>(`users/wishlist/${productId}`)
-            return data.wishlist
+            const {data}=await api.delete<{wishList:string[]}>(`users/wishlist/${productId}`)
+            return data.wishList
         },
         onSuccess:()=>queryClinnt.invalidateQueries({queryKey:["wishlist"]})
     })
-  return null
+
+    const isInWishlist=(productId:string)=>{
+        return wishlist?.some((product)=>product._id ===productId)??false
+    }
+
+    const toggleWshishlist=(productId:string)=>{
+        if(isInWishlist(productId)){
+            removeFromWishlistMutation.mutate(productId)
+        }else{
+            addToWishlistMutation.mutate(productId)
+        }
+    }
+  return {
+    wishlist:wishlist || [],
+    isLoading,
+    isError,
+    wishlistCount:wishlist?.length ||0,
+    isInWishlist,
+    toggleWshishlist,
+    addToWishlist:addToWishlistMutation.mutate,
+    isAddingToWishlist:addToWishlistMutation.isPending,
+    isRemovingFromWishlst:removeFromWishlistMutation.isPending
+  }
 }
 
 export default useWishlist

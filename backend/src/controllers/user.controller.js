@@ -118,8 +118,8 @@ export async function addToWishList(req,res) {
 }
 export async function getWishList(req,res) {
    try {
-     const user=await User.findById(res.user._id).populate("wishList")
-     res.state(200).json({wishList:user.wishList})
+     const user=await User.findById(req.user._id).populate("wishList")
+     res.status(200).json({wishList:user.wishList})
    } catch (error) {
     console.error("error in getWishList controller",error)
     res.status(500).json("Internal server error") 

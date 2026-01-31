@@ -116,7 +116,7 @@ const ShopScreen = () => {
             <Text className='text-text-secondary text-sm'>{ fillteredProducts.length} items</Text>
           </View>
           {/* productGrid Component */}
-          {/* <ProductGrid products={fillteredProducts} isLoading ={isLoading} isErorr={isError} / > */}
+          <ProductGrid products={fillteredProducts} isLoading ={isLoading} isErorr={isError} / >
         </View>
 
       </ScrollView>
