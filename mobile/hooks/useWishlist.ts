@@ -7,26 +7,26 @@ const useWishlist = () => {
     const queryClinnt=useQueryClient();
 
     const {data:wishlist,isLoading,isError}=useQuery({
-        queryKey:["wishlist"],
+        queryKey:["wishList"],
         queryFn:async()=>{
-            const {data}=await api.get<{wishList:Product []}>("users/wishlist")
+            const {data}=await api.get<{wishList:Product []}>("/users/wishlist")
             return data.wishList
         }
     })
 
     const addToWishlistMutation=useMutation({
         mutationFn:async(productId:string)=>{
-            const {data}=await api.post<{wishList:string[]}>("users/wishlist",{productId})
+            const {data}=await api.post<{wishList:string[]}>("/users/wishlist",{productId})
             return data.wishList
         },
-        onSuccess:()=>queryClinnt.invalidateQueries({queryKey:["wishlist"]})
+        onSuccess:()=>queryClinnt.invalidateQueries({queryKey:["wishList"]})
     })
     const removeFromWishlistMutation=useMutation({
         mutationFn:async(productId:string)=>{
-            const {data}=await api.delete<{wishList:string[]}>(`users/wishlist/${productId}`)
+            const {data}=await api.delete<{wishList:string[]}>(`/users/wishlist/${productId}`)
             return data.wishList
         },
-        onSuccess:()=>queryClinnt.invalidateQueries({queryKey:["wishlist"]})
+        onSuccess:()=>queryClinnt.invalidateQueries({queryKey:["wishList"]})
     })
 
     const isInWishlist=(productId:string)=>{
