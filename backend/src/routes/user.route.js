@@ -14,7 +14,7 @@ router.delete("/addresses/:addressId",deleteAddress)
 
 
 //whishList Routes
-router.post("wishlist",addToWishList)
-router.get("wishlist",getWishList)
-router.delete("wishlist/:productId",deleteFromWishList)
+router.post("/wishlist",addToWishList)
+router.get("/wishlist",getWishList)
+router.delete("/wishlist/:productId",deleteFromWishList)
 export default router
