@@ -1,21 +1,45 @@
 import { View, Text, ScrollView, TouchableOpacity, TextInput,Image  } from 'react-native'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import SafeScreen from '@/components/SafeScreen'
 import { Ionicons } from '@expo/vector-icons'
 import ProductGrid from '@/components/ProductGrid'
 import useProducts from '@/hooks/useProducts'
 const ShopScreen = () => {
-  const [searchQuery,setSearchQuery]=useState("")
-  const [selectedCategory, setSelectedCategory]=useState("All")
-   const {data:products,isLoading,isError} =useProducts()
-   console.log(products)
-  const CATEGORIES = [
+
+    const CATEGORIES = [
   { name: "All", icon: "grid-outline" as const },
   { name: "Electronics", image: require("@/assets/images/electronics.png") },
   { name: "Fashion", image: require("@/assets/images/fashion.png") },
   { name: "Sports", image: require("@/assets/images/sports.png") },
   { name: "Books", image: require("@/assets/images/books.png") },
 ];
+
+  const [searchQuery,setSearchQuery]=useState("")
+  const [selectedCategory, setSelectedCategory]=useState("All")
+   const {data:products,isLoading,isError} =useProducts()
+   
+
+   const fillteredProducts=useMemo(()=>{
+     if(!products) return []
+
+     let filterd=products
+
+     //filtring by category
+     if(selectedCategory !=="All"){
+      filterd=filterd.filter((product)=>product.category === selectedCategory)
+     }
+
+     //filtering by searchQuery
+     if(searchQuery.trim()){
+      filterd=filterd.filter((product)=>product.name.toLowerCase().includes(searchQuery.toLowerCase()))
+     }
+
+     return filterd
+   },[products,selectedCategory,searchQuery])
+  
+
+
+
   return (
     <SafeScreen>
       <ScrollView
@@ -89,10 +113,10 @@ const ShopScreen = () => {
         <View className='px-6 mb-6'>
           <View className='flex-row items-center justify-between mb-4'>
             <Text className='text-text-primary text-lg font-bold'>Products</Text>
-            <Text className='text-text-secondary text-sm'>10 items</Text>
+            <Text className='text-text-secondary text-sm'>{ fillteredProducts.length} items</Text>
           </View>
           {/* productGrid Component */}
-          <ProductGrid/>
+          {/* <ProductGrid products={fillteredProducts} isLoading ={isLoading} isErorr={isError} / > */}
         </View>
 
       </ScrollView>
