@@ -17,6 +17,7 @@ export const useApi=()=>{
     useEffect(()=>{
         const intreceptor=api.interceptors.request.use(async (config)=>{
             const token= await getToken();
+             console.log("AUTH TOKEN:", token) 
 
             if(token){
                 config.headers.Authorization=`Bearer ${token}`
