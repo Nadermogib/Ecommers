@@ -116,15 +116,35 @@ export async function addToWishList(req,res) {
     res.status(500).json("Internal server error") 
    } 
 }
-export async function getWishList(req,res) {
-   try {
-     const user=await User.findById(req.user._id).populate("wishList")
-     res.status(200).json({wishList:user.wishList})
-   } catch (error) {
-    console.error("error in getWishList controller",error)
-    res.status(500).json("Internal server error") 
-   }
+// export async function getWishList(req,res) {
+//    try {
+//      const user=await User.findById(req.user._id).populate("wishList")
+//      res.status(200).json({wishList:user.wishList})
+//    } catch (error) {
+//     console.error("error in getWishList controller",error)
+//     res.status(500).json("Internal server error") 
+//    }
+// }
+
+export async function getWishList(req, res) {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized", wishList: [] })
+    }
+
+    const user = await User.findById(req.user._id).populate("wishList")
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found", wishList: [] })
+    }
+
+    return res.status(200).json({ wishList: user.wishList || [] })
+  } catch (error) {
+    console.error("❌ getWishList controller error:", error)
+    return res.status(500).json({ error: "Internal server error", wishList: [] })
+  }
 }
+
 export async function deleteFromWishList(req,res) {
   try {
     const {productId}=req.params

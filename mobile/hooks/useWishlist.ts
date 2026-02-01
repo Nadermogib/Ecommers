@@ -9,8 +9,14 @@ const useWishlist = () => {
     const {data:wishlist,isLoading,isError}=useQuery({
         queryKey:["wishList"],
         queryFn:async()=>{
-            const {data}=await api.get<{wishList:Product []}>("/users/wishlist")
+           try {
+             const {data}=await api.get<{wishList:Product []}>("/users/wishlist")
+         
             return data.wishList
+            
+           } catch (error:any) {
+            console.log("er",error)
+           }
         }
     })
 
@@ -30,6 +36,7 @@ const useWishlist = () => {
     })
 
     const isInWishlist=(productId:string)=>{
+        //  console.log(wishlist)
         return wishlist?.some((product)=>product._id ===productId)??false
     }
 
