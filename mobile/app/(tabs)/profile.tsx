@@ -20,7 +20,8 @@ const ProfileScreen = () => {
   const handleMunePress=(action:(typeof MENU_ITEMS)[number]["action"])=>{
 
     if(action ==="/profile")return
-    // router.push(action)
+
+    router.push(action)
 
   }
   return (
@@ -51,7 +52,7 @@ const ProfileScreen = () => {
                   {user?.firstName}{user?.lastName}
                 </Text>
                 <Text className='text-text-secondary text-sm'>
-                  {user?.emailAddresses[0].emailAddress}
+                  {user?.emailAddresses[0]?.emailAddress || "No email"}
                 </Text>
               </View>
 
@@ -73,7 +74,7 @@ const ProfileScreen = () => {
               className='rounded-full w-16 h-16 items-center justify-center mb-4'
               style={{backgroundColor:item.color + "20"}}
               >
-                <Ionicons name={item.icon as any} size={28} color={item.color}/>
+                <Ionicons name={item.icon } size={28} color={item.color}/>
               </View>
               <Text className='text-text-primary font-bold text-base'>{item.title}</Text>
             </TouchableOpacity>
@@ -100,7 +101,7 @@ const ProfileScreen = () => {
             <TouchableOpacity
             className='flex-row items-center justify-between py-2'
             activeOpacity={0.7}
-            // onPress={()=>router.push("/privacy-security")}
+            onPress={()=>router.push("/privacy-security")}
             >
               <View className='flex-row items-center '>
                 <Ionicons name='shield-checkmark-outline' size={22} color='#FFFFFF'/>
