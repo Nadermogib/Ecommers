@@ -1,9 +1,10 @@
-import { View, Text, ScrollView, TouchableOpacity, TextInput,Image  } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, TextInput,Image,Button  } from 'react-native'
 import React, { useMemo, useState } from 'react'
 import SafeScreen from '@/components/SafeScreen'
 import { Ionicons } from '@expo/vector-icons'
 import ProductGrid from '@/components/ProductGrid'
 import useProducts from '@/hooks/useProducts'
+import * as Sentry from '@sentry/react-native';
 const ShopScreen = () => {
 
     const CATEGORIES = [
@@ -108,6 +109,8 @@ const ShopScreen = () => {
             })}
           </ScrollView>
         </View>
+{/* 
+        <Button title='Try!' onPress={ () => { Sentry.captureException(new Error('First error')) }}/> */}
 
         {/* PRODUCT&& ITEMS */}
         <View className='px-6 mb-6'>
