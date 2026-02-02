@@ -54,6 +54,7 @@ const useWishlist = () => {
     wishlistCount:wishlist?.length ||0,
     isInWishlist,
     toggleWshishlist,
+    removeFromWishlist:removeFromWishlistMutation.mutate,
     addToWishlist:addToWishlistMutation.mutate,
     isAddingToWishlist:addToWishlistMutation.isPending,
     isRemovingFromWishlst:removeFromWishlistMutation.isPending
