@@ -1,8 +1,7 @@
-import { View, Text, Modal, TouchableOpacity, ScrollView, TextInput, Switch, ActivityIndicator } from 'react-native'
+import { View, Text, Modal, TouchableOpacity, ScrollView, TextInput, Switch, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native'
 import React from 'react'
 import SafeScreen from './SafeScreen';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
 
 interface AddressFormData {
   label: string;
@@ -44,8 +43,11 @@ const AddressFormModel = ({visible,isEditing,addressForm,isAddingAddress,isUpdat
 
       </Text>
      </View>
-
-     <ScrollView
+       <KeyboardAvoidingView 
+        behavior={Platform.OS==="ios"?"padding":"height"}
+        className='flex-1'
+       >
+        <ScrollView
       className='flex-1'
       contentContainerStyle={{paddingBottom:50}}
       showsVerticalScrollIndicator={false}
@@ -156,12 +158,9 @@ const AddressFormModel = ({visible,isEditing,addressForm,isAddingAddress,isUpdat
                 )}
             </TouchableOpacity>
 
-
-
-
-
         </View>
-     </ScrollView>
+        </ScrollView>
+       </KeyboardAvoidingView>
 
     </SafeScreen>
 

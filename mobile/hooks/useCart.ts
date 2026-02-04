@@ -1,6 +1,6 @@
 import { useApi } from "@/lib/api"
 import { Cart} from "@/types";
-import { useQuery ,useMutation,useQueryClient} from "@tanstack/react-query";
+import {useMutation,useQueryClient} from "@tanstack/react-query";
 
 const useCart = () => {
     const api=useApi()
