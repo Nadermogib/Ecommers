@@ -41,6 +41,7 @@ const useCart = () => {
     const clearCartMutation=useMutation({
       mutationFn:async()=>{
         const {data}=await api.delete<{cart:Cart}>("/cart")
+        return data.cart
 
       },
        onSuccess:()=>queryClient.invalidateQueries({queryKey:["cart"]})
