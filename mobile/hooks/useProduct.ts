@@ -9,7 +9,7 @@ export const useProduct=(productId:string)=>{
     const result=useQuery({
         queryKey:["product",productId],
         queryFn:async()=>{
-            const {data}=await api.get<{product:Product[]}>(`/products/${productId}`)
+            const {data}=await api.get<{product:Product}>(`/products/${productId}`)
             return data.product
 
         },
