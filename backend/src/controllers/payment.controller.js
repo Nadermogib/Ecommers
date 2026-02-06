@@ -79,7 +79,7 @@ export async function createPaymentIntent(req,res){
             automatic_payment_methods:{
                 enabled:true,
             },
-            mandate:{
+            metadata:{
                 clerkId:user.clerkId,
                 userId:user._id.toString(),
                 orderItems:JSON.stringify(validatedItems),

@@ -62,8 +62,9 @@ const CartScreen = () => {
   try {
     setPaymentLoading(true)
     //create payment intent with cart items and shipping address
+    console.log(catrItems)
     const {data}=await api.post("/payment/create-intent",{
-      catrItems,
+      cartItems:catrItems,
       shippingAddress:{
         fullName: selectedAddress.fullName,
         streetAddress: selectedAddress.streetAddress,
