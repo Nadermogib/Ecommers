@@ -101,7 +101,7 @@ const CartScreen = () => {
     
   } catch (error) {
     Alert.alert("Erorr","Failed to process payment")
-      console.log("Payment error:", error?.response?.data || error.message)
+     
     console.log("payment failed:=>",error)
   }finally{
     setPaymentLoading(false)
