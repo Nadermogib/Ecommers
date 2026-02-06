@@ -8,6 +8,8 @@ import{useStripe}from "@stripe/stripe-react-native"
 import { Address } from '@/types'
 import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
+import OrderSummary from '@/components/OrderSummary'
+import AddressSelectionModal from '@/components/AddressSelectionModal'
 const CartScreen = () => {
  const api=useApi()
  const {addToCart,isAddingToCart,cart,cartItemCount,cartTotal,clearCart,isClearingCart,isError,isLoading,isRemovingFromCart,isUpdatingCart,removeFromCart,updateQuantity}=useCart()
@@ -54,7 +56,55 @@ const CartScreen = () => {
   setAddrsseModalVisible(true)
  }
 
- const handleProcsseWithPayment=async(selectedAddress:Address)=>{}
+ const handleProcsseWithPayment=async(selectedAddress:Address)=>{
+  setAddrsseModalVisible(false)
+
+  try {
+    setPaymentLoading(true)
+    //create payment intent with cart items and shipping address
+    const {data}=await api.post("/payment/create-intent",{
+      catrItems,
+      shippingAddress:{
+        fullName: selectedAddress.fullName,
+        streetAddress: selectedAddress.streetAddress,
+        city: selectedAddress.city,
+         state: selectedAddress.state,
+        zipCode: selectedAddress.zipCode,
+        phoneNumber: selectedAddress.phoneNumber,
+    
+      }
+    })
+
+    const{error:initErorr}=await initPaymentSheet({
+      paymentIntentClientSecret:data.clientSecret,
+      merchantDisplayName:"e-commerce"
+    })
+
+    if(initErorr){
+      Alert.alert("Erorr",initErorr.message)
+      setPaymentLoading(false)
+      return
+    }
+
+    //present payment sheet
+    const{error:presntErorr}=await presentPaymentSheet()
+
+    if(presntErorr){
+      Alert.alert("Payment Canceled",presntErorr.message)
+
+    }else{
+      Alert.alert("Success","your payment was successfuly ! your order is being processed",[
+        {text:"Ok",onPress:()=>{clearCart()}}
+      ])
+    }
+    
+  } catch (error) {
+    Alert.alert("Erorr","Failed to process payment")
+    console.log("payment failed:=>",error)
+  }finally{
+    setPaymentLoading(false)
+  }
+ }
 
  if(isLoading) return<LoadingUI/>
  if(isError) return <ErrorUI/>
@@ -151,7 +201,57 @@ const CartScreen = () => {
             </View>
           ))}
         </View>
+        <OrderSummary 
+        subtotal={subtotal}
+        shipping={shipping}
+        tax={tax}
+        total={total}
+        />
        </ScrollView>
+             <View
+        className="absolute bottom-0 left-0 right-0 bg-background/95 backdrop-blur-xl border-t
+       border-surface pt-4 pb-32 px-6"
+      >
+        {/* Quick Stats */}
+        <View className="flex-row items-center justify-between mb-4">
+          <View className="flex-row items-center">
+            <Ionicons name="cart" size={20} color="#1DB954" />
+            <Text className="text-text-secondary ml-2">
+              {cartItemCount} {cartItemCount === 1 ? "item" : "items"}
+            </Text>
+          </View>
+          <View className="flex-row items-center">
+            <Text className="text-text-primary font-bold text-xl">${total.toFixed(2)}</Text>
+          </View>
+        </View>
+
+        {/* Checkout Button */}
+        <TouchableOpacity
+          className="bg-primary rounded-2xl overflow-hidden"
+          activeOpacity={0.9}
+          onPress={handleCheckout}
+          disabled={paymentLoading}
+        >
+          <View className="py-5 flex-row items-center justify-center">
+            {paymentLoading ? (
+              <ActivityIndicator size="small" color="#121212" />
+            ) : (
+              <>
+                <Text className="text-background font-bold text-lg mr-2">Checkout</Text>
+                <Ionicons name="arrow-forward" size={20} color="#121212" />
+              </>
+            )}
+          </View>
+        </TouchableOpacity>
+      </View>
+
+      <AddressSelectionModal
+        visible={addrsseModalVisible}
+        onClose={() =>setAddrsseModalVisible(false)}
+        onProceed={handleProcsseWithPayment}
+        isProcessing={paymentLoading}
+      />
+
     </SafeScreen>
   )
 }
