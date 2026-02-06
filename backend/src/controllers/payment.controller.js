@@ -36,6 +36,7 @@ export async function createPaymentIntent(req,res){
             validatedItems.push({
                 product:product._id.toString(),
                 name:product.name,
+                price: product.price,
                 quantity:item.quantity,
                 image:product.images[0],
             })
@@ -95,6 +96,6 @@ export async function createPaymentIntent(req,res){
        } catch (error) {
         console.log("Erorr creating payment intent",error)
 
-          res.status(500).json({error:"failed to creaet payment intent"})   
+          res.status(500).json({error:error})   
         }
     }
