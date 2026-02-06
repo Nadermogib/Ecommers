@@ -12,9 +12,10 @@ export default Sentry.wrap(function RootLayout() {
     <ClerkProvider tokenCache={tokenCache}>
 
     <QueryClientProvider client={queryCliet}>
-      <StripeProvider publishableKey={process.env.EXPO_STRIPE_PUBLISHABLE_KEY!}>
+      <StripeProvider publishableKey='pk_test_51SxDgIFr5W64jpLSgGAAyJEX1R4Ytg2Zqr64vgyhJ3j389jURXJwoGrMyMkB9ZZbKoOnEQpwkEPHmJ07D4H0YSd300fk3k0lef'>
 
       <Stack screenOptions={{headerShown:false}}/>
+      
       </StripeProvider>
     </QueryClientProvider>
 

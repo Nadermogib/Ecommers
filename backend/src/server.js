@@ -19,6 +19,18 @@ import paymentRoutes from "./routes/payment.route.js"
 
 const app = express();
 const __dirname = path.resolve();
+
+app.use(
+  "/api/payment",
+  (req, res, next) => {
+    if (req.originalUrl === "/api/payment/webhook") {
+      express.raw({ type: "application/json" })(req, res, next);
+    } else {
+      express.json()(req, res, next); // parse json for non-webhook routes
+    }
+  },
+  paymentRoutes
+);
  
 app.use(express.json())
 app.use(clerkMiddleware()); // adds auth object under the req => req.auth
@@ -32,7 +44,7 @@ app.use("/api/orders",orderRoutes)
 app.use("/api/reviews",reviewRoutes)
 app.use("/api/products",productRoutes)
 app.use("/api/cart",cartRoutes)
-app.use("/api/payment",paymentRoutes)
+
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({ message: "Success" });
