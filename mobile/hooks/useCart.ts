@@ -24,7 +24,7 @@ const useCart = () => {
 
     const updateQuantityMutation=useMutation({
       mutationFn:async({productId,quantity}:{productId:string;quantity:number})=>{
-        const {data}=await api.put<{cart:Cart}>(`/cart/${productId}`,quantity)
+        const {data}=await api.put<{cart:Cart}>(`/cart/${productId}`,{ quantity })
         return data.cart
       },
        onSuccess:()=>queryClient.invalidateQueries({queryKey:["cart"]})

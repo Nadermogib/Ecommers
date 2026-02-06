@@ -31,7 +31,7 @@ export async function createPaymentIntent(req,res){
               return  res.status(400).json({error:`Insufficient stock of${item.product.name}`})   
             }
 
-            subtotal+=product.price * product.quantity
+            subtotal+=product.price * item.quantity
 
             validatedItems.push({
                 product:product._id.toString(),
