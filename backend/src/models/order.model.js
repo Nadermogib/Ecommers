@@ -69,7 +69,7 @@ const orderSchema = new mongoose.Schema(
     clerkId: {
       type: String,
       required: true,
-      unique: true,
+     
     },
     orderItems: [orderItemSchema],
     shippingAddress: {
