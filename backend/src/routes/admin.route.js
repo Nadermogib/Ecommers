@@ -15,7 +15,7 @@ router.put("/products/:id",uplode.array("images",3),updateProduct)
 router.delete("/products/:id",deleteProduct)
 
 router.get("/orders",getAllOrders)
-router.patch("/order/:orderId/status",updateOrderStatus)
+router.patch("/orders/:orderId/status",updateOrderStatus)
 
 router.get("/customers",getAllCoustomers)
 router.get("/stats",getDashboardStata)
