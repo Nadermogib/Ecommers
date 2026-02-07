@@ -59,7 +59,7 @@ const useCart = () => {
     updateQuantity:updateQuantityMutation.mutate,
     removeFromCart:removeFromCartMutation.mutate,
     addToCart:addToCartMutation.mutate,
-    clearCart:clearCartMutation.mutateAsync,
+    clearCart:clearCartMutation.mutate,
     isAddingToCart:addToCartMutation.isPending,
     isUpdatingCart:updateQuantityMutation.isPending,
     isRemovingFromCart:removeFromCartMutation.isPending,
