@@ -14,14 +14,14 @@ function OrdersPage() {
   const updateStatusMutation=useMutation({
     mutationFn:orderApi.updateStatus,
     onSuccess:()=>{
-      queryClient.invalidateQueries({queryKey:["order"]})
+      queryClient.invalidateQueries({queryKey:["orders"]})
       queryClient.invalidateQueries({queryKey:["dashbordStata"]})
     },
   })
 
-  const handeleStatusChang=(orderId,newStatus)=>{
-    updateStatusMutation.mutate({orderId,status:newStatus})
-  }
+const handleStatusChange = (orderId, newStatus) => {
+  updateStatusMutation.mutate({ orderId, status: newStatus });
+};
 
   const orders=orderData?.orders || []
   return (
@@ -90,7 +90,7 @@ function OrdersPage() {
                       <td>
                         <select
                         value={order.status}
-                        onChange={(e)=>handeleStatusChang(order._id,e.target.value)}
+                        onChange={(e)=>handleStatusChange(order._id,e.target.value)}
                         className=' select select-sm '
                         disabled={updateStatusMutation.isPending}  
                         >

@@ -59,122 +59,131 @@ const OrdersScreen = () => {
        Alert.alert("Error",error?.response?.data?.error || "Faild to submit rating")
     }
   }
-  console.log(orders)
+  
   return (
     <SafeScreen>
-      {/* HEADER */}
-      <View className='px-6 pb-5 border-b border-surface flex-row items-center'>
-        <TouchableOpacity onPress={()=>router.back()} className='mr-4'>
-          <Ionicons name='arrow-back' size={28} color='#FFFFFF'/>
+       {/* Header */}
+      <View className="px-6 pb-5 border-b border-surface flex-row items-center">
+        <TouchableOpacity onPress={() => router.back()} className="mr-4">
+          <Ionicons name="arrow-back" size={28} color="#FFFFFF" />
         </TouchableOpacity>
-        <Text className='text-text-primary text-2xl font-bold'>My Orders</Text>
+        <Text className="text-text-primary text-2xl font-bold">My Orders</Text>
       </View>
-      {isLoading?(
-        <LoadingUI/>
-      ):isError?(
-        <ErrorUI/>
-      ):!orders || orders.length ===0?(
-        <EmptyUI/>
-      ):(
+
+      {isLoading ? (
+        <LoadingUI />
+      ) : isError ? (
+        <ErrorUI />
+      ) : !orders || orders.length === 0 ? (
+        <EmptyUI />
+      ) : (
         <ScrollView
-         className='flex-1'
-         showsVerticalScrollIndicator={false}
-         contentContainerStyle={{paddingBottom:100}}
+          className="flex-1"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 100 }}
         >
-          <View className='px-6 py-4'>
-            {orders.map(order=>{
-              const totalItems=order.orderItems.reduce((sum,item)=>sum+item.quantity,0)
-              const fristImage=order.orderItems[0]?.image ||""
+          <View className="px-6 py-4">
+            {orders.map((order) => {
+              const totalItems = order.orderItems.reduce((sum, item) => sum + item.quantity, 0);
+              const firstImage = order.orderItems[0]?.image || "";
 
-              return<View key={order._id} className='bg-surface rounded-3xl '>
-                <View className='flex-row mb-4'>
+              return (
+                <View key={order._id} className="bg-surface rounded-3xl p-5 mb-4">
+                  <View className="flex-row mb-4">
+                    <View className="relative">
+                      <Image
+                        source={firstImage}
+                        style={{ height: 80, width: 80, borderRadius: 8 }}
+                        contentFit="cover"
+                      />
 
-                  <View className='relative'>
-                    <Image
-                     source={fristImage}
-                     style={{height:80,width:80,borderRadius:8}}
-                     contentFit='cover'
-                    />
-                    {/* Badge for more items */}
-                    {order.orderItems.length>1 &&(
-                      <View className='absolute -bottom-1 -right-1 bg-primary rounded-full size-7 items-center justify-center'>
-                        <Text className='text-background text-xs font-bold'>
-                         +{order.orderItems.length-1}
+                      {/* BADGE FOR MORE ITEMS */}
+                      {order.orderItems.length > 1 && (
+                        <View className="absolute -bottom-1 -right-1 bg-primary rounded-full size-7 items-center justify-center">
+                          <Text className="text-background text-xs font-bold">
+                            +{order.orderItems.length - 1}
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+
+                    <View className="flex-1 ml-4">
+                      <Text className="text-text-primary font-bold text-base mb-1">
+                        Order #{order._id.slice(-8).toUpperCase()}
+                      </Text>
+                      <Text className="text-text-secondary text-sm mb-2">
+                        {formatDate(order.createdAt)}
+                      </Text>
+                      <View
+                        className="self-start px-3 py-1.5 rounded-full"
+                        style={{ backgroundColor: getStatusColor(order.status) + "20" }}
+                      >
+                        <Text
+                          className="text-xs font-bold"
+                          style={{ color: getStatusColor(order.status) }}
+                        >
+                          {capitalizeFirstLetter(order.status)}
                         </Text>
                       </View>
-                    )}
-                  </View>
-
-                  <View className='flex-1 ml-1'>
-                    <Text className='text-text-primary font-bold text-base mb-1'>
-                      Order # {order._id.slice(-8).toUpperCase()}
-                    </Text>
-                    <Text className='text-text-secondary text-sm mb-2'>
-                      {formatDate(order.clerkId)}
-                    </Text>
-                    <View 
-                     className='self-start px-3 py-1.5 rounded-full'
-                     style={{backgroundColor:getStatusColor(order.status)+"20"}}
-                    >
-                      <Text 
-                       className='text-xs font-bold'
-                       style={{color:getStatusColor(order.status)}}
-                       >
-                        {capitalizeFirstLetter(order.status)}
-                       </Text>
                     </View>
                   </View>
 
-                </View>
-
-                {/* Order items summary */}
-                {order.orderItems.map((item,index)=>(
-                  <Text key={item._id}
-                   className='text-text-secondary text-sm flex-1'
-                   numberOfLines={1}
-
-                  >
-                    {item.name} x {item.quantity}
-                    
-                  </Text>
-                ))}
-
-                <View className='border-t border-background-lighter pt-3 flex-row justify-center items-center'>
-                  <View>
-                    <Text className='text-text-secondary text-xs mb-1'>{totalItems} items</Text>
-                    <Text className='text-primary font-bold text-xl '>
-                     $ {order.totalPrice.toFixed(2)}
+                  {/* ORDER ITEMS SUMMARY */}
+                  {order.orderItems.map((item, index) => (
+                    <Text
+                      key={item._id}
+                      className="text-text-secondary text-sm flex-1"
+                      numberOfLines={1}
+                    >
+                      {item.name} × {item.quantity}
                     </Text>
+                  ))}
+
+                  <View className="border-t border-background-lighter pt-3 flex-row justify-between items-center">
+                    <View>
+                      <Text className="text-text-secondary text-xs mb-1">{totalItems} items</Text>
+                      <Text className="text-primary font-bold text-xl">
+                        ${order.totalPrice.toFixed(2)}
+                      </Text>
+                    </View>
+
+                    {order.status === "delivered" &&
+                      (order.hasReviewed ? (
+                        <View className="bg-primary/20 px-5 py-3 rounded-full flex-row items-center">
+                          <Ionicons name="checkmark-circle" size={18} color="#1DB954" />
+                          <Text className="text-primary font-bold text-sm ml-2">Reviewed</Text>
+                        </View>
+                      ) : (
+                        <TouchableOpacity
+                          className="bg-primary px-5 py-3 rounded-full flex-row items-center"
+                          activeOpacity={0.7}
+                          onPress={() => handleOpenRating(order)}
+                        >
+                          <Ionicons name="star" size={18} color="#121212" />
+                          <Text className="text-background font-bold text-sm ml-2">
+                            Leave Rating
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
                   </View>
-                  
-                  {order.status==="delivered" &&(
-                    order.hasReviewed?(
-                      <View className='bg-primary/20 px-5 py-3 rounded-full flex-row items-center'>
-                        <Ionicons name='checkmark-circle' size={18} color="#1DB954"/>
-                        <Text className='text-primary font-bold text-sm ml-2'>Reviwed</Text>
-                      </View>
-                    ):(
-                      <TouchableOpacity
-                      className='bg-primary px-5 rounded-full flex-row  items-center'
-                      activeOpacity={0.7}
-                      onPress={()=>handleOpenRating(order)}
-                      >
-                        <Ionicons name='star' size={18} color="#121212"/>
-                        <Text className='text-background font-bold text-sm  ml-2'>
-                          Leave ratting
-                        </Text>
-                      </TouchableOpacity>
-                    )
-                  )}
                 </View>
-
-
-              </View>
-            })} 
+              );
+            })}
           </View>
         </ScrollView>
-      )
-    }
+      )}
+
+      {/* <RatingModal
+        visible={showRatingModal}
+        onClose={() => setShowRatingModal(false)}
+        order={selectedOrder}
+        productRatings={productRatings}
+        onSubmit={handleSubmitRating}
+        isSubmitting={isCreatingReview}
+        onRatingChange={(productId, rating) =>
+          setProductRatings((prev) => ({ ...prev, [productId]: rating }))
+        }
+      /> */}
     </SafeScreen>
   )
 }

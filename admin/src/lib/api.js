@@ -29,10 +29,25 @@ export const orderApi={
            console.log(error) 
         }
     },
-     updateStatus:async(orderId,status)=>{
-        const {data}=await axiosInstance.patch(`/admin/orders/${orderId}/status`,{status});
-        return data
-    },
+
+
+    updateStatus: async ({ orderId, status }) => {
+  try {
+    const { data } = await axiosInstance.patch(`/admin/orders/${orderId}/status`, { status });
+    return data;
+  } catch (error) {
+    console.log("Error updating status:", error);
+  }
+},
+    //  updateStatus:async(orderId,status)=>{
+    //     try {
+    //      const {data}=await axiosInstance.patch(`/admin/orders/${orderId}/status`,{status});
+    //     return data
+    //     } catch (error) {
+    //        console.log("error update stust:=>",error) 
+    //     }
+        
+    // },
 }
 
 export const statasApi={
