@@ -11,7 +11,7 @@ import { useApi } from "@/lib/api"
 
     const createReview=useMutation({
         mutationFn:async(data:CreateReviewData)=>{
-            const response=await api.post("reviews",data)
+            const response=await api.post("/reviews",data)
             return response.data
         },
         onSuccess:()=>{
