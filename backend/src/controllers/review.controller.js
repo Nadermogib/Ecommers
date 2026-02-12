@@ -10,6 +10,7 @@ import { Review } from "../models/review.model.js"
         }
 
         const user=req.user
+        
         //verfiy order exists and is deleverd
         const order=await Order.findById(orderId);
 
@@ -35,7 +36,7 @@ import { Review } from "../models/review.model.js"
         })
 
         //update the product ratting
-         const reviews =await Review.find(productId)
+         const reviews =await Review.find({productId})
          const totalRatting=reviews.reduce((sum,rev)=>sum + rev.rating,0)
          const updatedProduct=await Product.findByIdAndUpdate(
             productId,

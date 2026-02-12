@@ -8,6 +8,7 @@ import { router } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { capitalizeFirstLetter, formatDate, getStatusColor } from '@/lib/utils'
+import RatingModal from '@/components/RatingModal'
 const OrdersScreen = () => {
   const {data:orders,isLoading,isError}=useOrder()
   const {createReviewAsync,isCreateReview}=useReviews()
@@ -173,17 +174,17 @@ const OrdersScreen = () => {
         </ScrollView>
       )}
 
-      {/* <RatingModal
+      <RatingModal
         visible={showRatingModal}
         onClose={() => setShowRatingModal(false)}
         order={selectedOrder}
-        productRatings={productRatings}
+        productRatings={productRating}
         onSubmit={handleSubmitRating}
-        isSubmitting={isCreatingReview}
+        isSubmitting={isCreateReview}
         onRatingChange={(productId, rating) =>
-          setProductRatings((prev) => ({ ...prev, [productId]: rating }))
+          setProductRating((prev) => ({ ...prev, [productId]: rating }))
         }
-      /> */}
+      />
     </SafeScreen>
   )
 }
